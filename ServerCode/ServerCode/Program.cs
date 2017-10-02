@@ -14,11 +14,10 @@ namespace GetIPServer
 		public static TcpListener _server;
 		public static RootObject info = new RootObject();
 		public static string template;
-
+		public static string filePath = "../../../../docs/index.html";
 		public static void Main (string[] args)
 		{
 			template = File.ReadAllText ("template.txt");
-
 			info.Objects = new List<Object> ();
 			_server = new TcpListener (IPAddress.Any, 2001);
 			_server.Start ();
@@ -55,7 +54,7 @@ namespace GetIPServer
 					string output = JsonConvert.SerializeObject(info, Formatting.Indented);
 					File.WriteAllText("data.txt", output);
 					string html = template.Replace("<DATA>", CreateTable());
-					File.WriteAllText ("main.html", html);
+					File.WriteAllText (filePath, html);
 					client.Close();
 				});
 				childSocketThread.Start();
