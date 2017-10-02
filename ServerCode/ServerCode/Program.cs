@@ -14,21 +14,26 @@ namespace GetIPServer
 		public static TcpListener _server;
 		public static RootObject info = new RootObject();
 		public static string template;
-		public static string filePath = "../../../../docs/index.html";
+		public static string input;
+
 		public static void Main (string[] args)
 		{
 			template = File.ReadAllText ("template.txt");
+			input = File.ReadAllText ("data.txt");
+
 			info.Objects = new List<Object> ();
 			_server = new TcpListener (IPAddress.Any, 2001);
 			_server.Start ();
-			string input = File.ReadAllText ("data.txt");
-			if (input.Length > 0) info = JsonConvert.DeserializeObject<RootObject> (input);
+
+			if (input.Length > 0) {
+				info = JsonConvert.DeserializeObject<RootObject> (input);
+			}
 
 			while (true)
 			{
 				Socket client = _server.AcceptSocket();
 				Console.WriteLine("Connection accepted.");
-
+																			
 				var childSocketThread = new Thread(() =>
 				{
 					string retVal = "";
@@ -50,38 +55,53 @@ namespace GetIPServer
 					{
 						info.Objects.Add(new Object(retArray[0], retArray[1].Replace("\n", ""), DateTime.Now.ToString()));
 					}
-					Console.WriteLine();
-					string output = JsonConvert.SerializeObject(info, Formatting.Indented);
-					File.WriteAllText("data.txt", output);
-					string html = template.Replace("<DATA>", CreateTable());
-					File.WriteAllText (filePath, html);
+					Update();
 					client.Close();
 				});
 				childSocketThread.Start();
 			}
 		}
 
-		public static string CreateTable () 
+		public static bool Update () 
 		{
-			string response = "";
-			foreach (Object o in info.Objects) {
-				response += "<tr><td>" + o.mac + "</td><td>" + o.ip + "</td><td>" + o.name + "</td><td>" + o.time + "</td></tr>";
+			try 
+			{
+				string output = JsonConvert.SerializeObject(info, Formatting.Indented);
+				File.WriteAllText("data.txt", output);
+
+				string response = "";
+				if (info.Objects != null) {
+					foreach (Object o in info.Objects) 
+					{
+						response += "<tr><td>" + o.mac + "</td><td>" + o.ip + "</td><td>" + o.name + "</td><td>" + o.time + "</td></tr>";
+					}
+				}
+				else {
+					response += "</tr>";
+				}
+
+				string html = template.Replace("<DATA>", response);
+				File.WriteAllText ("index.html", html);
+
+				return true;
 			}
-			return response;
+			catch (Exception e) 
+			{
+				Console.WriteLine (e.Message);
+				Console.WriteLine (e.StackTrace);
+
+				return false;
+			}
 		}
 	}
 
 	public class RootObject 
 	{
-		
 		public List<Object> Objects {get; set; }
-
 	}
-
 
 	public class Object 
 	{
-		
 		public string mac {get; set; }
 		public string ip {get; set; }
 		public string name {get; set;}
@@ -94,6 +114,5 @@ namespace GetIPServer
 			this.time = time;
 			this.name = name;
 		}
-
 	}
 }

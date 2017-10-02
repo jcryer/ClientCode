@@ -1,8 +1,8 @@
 ﻿<Properties StartupItem="ServerCode\ServerCode.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="h:\Coding\RobotNames\RobotNames\ServerCode\ServerCode\Program.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ServerCode/Program.cs">
     <Files>
-      <File FileName="h:\Coding\RobotNames\RobotNames\ServerCode\ServerCode\Program.cs" Line="23" Column="1" />
+      <File FileName="ServerCode/Program.cs" Line="26" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
