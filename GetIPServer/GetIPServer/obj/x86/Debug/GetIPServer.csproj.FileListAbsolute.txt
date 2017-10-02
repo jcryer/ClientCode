@@ -1,6 +1,0 @@
-H:\Coding\RobotNames\RobotNames\GetIPServer\GetIPServer\bin\Debug\GetIPServer.exe
-H:\Coding\RobotNames\RobotNames\GetIPServer\GetIPServer\bin\Debug\GetIPServer.pdb
-H:\Coding\RobotNames\RobotNames\GetIPServer\GetIPServer\bin\Debug\Newtonsoft.Json.dll
-H:\Coding\RobotNames\RobotNames\GetIPServer\GetIPServer\obj\x86\Debug\GetIPServer.csprojResolveAssemblyReference.cache
-H:\Coding\RobotNames\RobotNames\GetIPServer\GetIPServer\obj\x86\Debug\GetIPServer.exe
-H:\Coding\RobotNames\RobotNames\GetIPServer\GetIPServer\obj\x86\Debug\GetIPServer.pdb

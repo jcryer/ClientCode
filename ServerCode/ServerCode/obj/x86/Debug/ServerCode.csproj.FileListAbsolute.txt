@@ -1,0 +1,6 @@
+H:\Coding\RobotNames\RobotNames\ServerCode\ServerCode\bin\Debug\ServerCode.exe
+H:\Coding\RobotNames\RobotNames\ServerCode\ServerCode\bin\Debug\ServerCode.pdb
+H:\Coding\RobotNames\RobotNames\ServerCode\ServerCode\bin\Debug\Newtonsoft.Json.dll
+H:\Coding\RobotNames\RobotNames\ServerCode\ServerCode\obj\x86\Debug\ServerCode.exe
+H:\Coding\RobotNames\RobotNames\ServerCode\ServerCode\obj\x86\Debug\ServerCode.pdb
+H:\Coding\RobotNames\RobotNames\ServerCode\ServerCode\obj\x86\Debug\ServerCode.csprojResolveAssemblyReference.cache
