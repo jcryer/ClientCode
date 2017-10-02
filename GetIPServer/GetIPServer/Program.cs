@@ -13,17 +13,17 @@ namespace GetIPServer
 	{
 		public static TcpListener _server;
 		public static RootObject info = new RootObject();
+		public static string template;
 
 		public static void Main (string[] args)
 		{
+			template = File.ReadAllText ("template.txt");
+
 			info.Objects = new List<Object> ();
 			_server = new TcpListener (IPAddress.Any, 2001);
 			_server.Start ();
 			string input = File.ReadAllText ("data.txt");
-
-			if (input.Length > 0) {
-				info = JsonConvert.DeserializeObject<RootObject> (input);
-			}
+			if (input.Length > 0) info = JsonConvert.DeserializeObject<RootObject> (input);
 
 			while (true)
 			{
@@ -31,11 +31,11 @@ namespace GetIPServer
 				Console.WriteLine("Connection accepted.");
 
 				var childSocketThread = new Thread(() =>
-				                                   {
+				{
+					string retVal = "";
 					byte[] data = new byte[100];
 					int size = client.Receive(data);
 					Console.WriteLine("Recieved data: ");
-					string retVal = "";
 					for (int i = 0; i < size; i++)
 						retVal += Convert.ToChar(data[i]);
 
@@ -45,35 +45,56 @@ namespace GetIPServer
 					{
 						Object obj = info.Objects.First(x => x.mac == retArray[0]);
 						obj.ip = retArray[1];
+						obj.time = DateTime.Now.ToString ();
 					}
 					else  
 					{
-						info.Objects.Add(new Object(retArray[0], retArray[1].Replace("\n", "")));
+						info.Objects.Add(new Object(retArray[0], retArray[1].Replace("\n", ""), DateTime.Now.ToString()));
 					}
 					Console.WriteLine();
-					string output = JsonConvert.SerializeObject(info);
+					string output = JsonConvert.SerializeObject(info, Formatting.Indented);
 					File.WriteAllText("data.txt", output);
-
+					string html = template.Replace("<DATA>", CreateTable());
+					File.WriteAllText ("main.html", html);
 					client.Close();
 				});
 				childSocketThread.Start();
 			}
 		}
+
+		public static string CreateTable () 
+		{
+			string response = "";
+			foreach (Object o in info.Objects) {
+				response += "<tr><td>" + o.mac + "</td><td>" + o.ip + "</td><td>" + o.name + "</td><td>" + o.time + "</td></tr>";
+			}
+			return response;
+		}
 	}
-	public class RootObject {
+
+	public class RootObject 
+	{
+		
 		public List<Object> Objects {get; set; }
+
 	}
+
+
 	public class Object 
 	{
+		
 		public string mac {get; set; }
 		public string ip {get; set; }
 		public string name {get; set;}
+		public string time { get; set;}
 
-		public Object (string mac, string ip, string name = "unknown") 
+		public Object (string mac, string ip, string time, string name = "unknown") 
 		{
 			this.mac = mac;
 			this.ip = ip;
+			this.time = time;
 			this.name = name;
 		}
+
 	}
 }

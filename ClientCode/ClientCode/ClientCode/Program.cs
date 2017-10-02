@@ -16,7 +16,7 @@ namespace ClientCode
 				TcpClient _client = new TcpClient();
 				Console.WriteLine("Connecting.....");
 
-				_client.Connect("207.207.207.8",2001);
+				_client.Connect("10.48.220.37",2001);
 
 				Console.WriteLine("Connected");
 
@@ -39,6 +39,8 @@ namespace ClientCode
 
 			catch (Exception e) {
 				Console.WriteLine("Error..... " + e.StackTrace);
+				Console.WriteLine (e.Message);
+				Console.ReadLine ();
 			}
 		}
 

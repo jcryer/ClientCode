@@ -1,0 +1,5 @@
+H:\Coding\RobotNames\RobotNames\ClientCode\ClientCode\ClientCode\bin\Debug\ClientCode.exe
+H:\Coding\RobotNames\RobotNames\ClientCode\ClientCode\ClientCode\bin\Debug\ClientCode.pdb
+H:\Coding\RobotNames\RobotNames\ClientCode\ClientCode\ClientCode\obj\x86\Debug\ClientCode.csprojResolveAssemblyReference.cache
+H:\Coding\RobotNames\RobotNames\ClientCode\ClientCode\ClientCode\obj\x86\Debug\ClientCode.exe
+H:\Coding\RobotNames\RobotNames\ClientCode\ClientCode\ClientCode\obj\x86\Debug\ClientCode.pdb
