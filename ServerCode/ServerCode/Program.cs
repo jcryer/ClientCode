@@ -28,7 +28,6 @@ namespace GetIPServer
 			if (input.Length > 0) {
 				info = JsonConvert.DeserializeObject<RootObject> (input);
 			}
-
 			while (true)
 			{
 				Socket client = _server.AcceptSocket();
@@ -44,28 +43,35 @@ namespace GetIPServer
 						retVal += Convert.ToChar(data[i]);
 
 					Console.WriteLine(retVal);
-					string[] retArray = retVal.Split('=');
-					if (info.Objects.Any(x => x.mac == retArray[0]))
-					{
-						Object obj = info.Objects.First(x => x.mac == retArray[0]);
-						obj.ip = retArray[1];
-						obj.time = DateTime.Now.ToString ();
-					}
-					else  
-					{
-						info.Objects.Add(new Object(retArray[0], retArray[1].Replace("\n", ""), DateTime.Now.ToString()));
-					}
-					Update();
+
+					Update(retVal);
 					client.Close();
 				});
 				childSocketThread.Start();
 			}
 		}
 
-		public static bool Update () 
+		public static bool Update (string retVal) 
 		{
 			try 
 			{
+				input = File.ReadAllText ("data.txt");
+				if (input.Length > 0) 
+				{
+					info = JsonConvert.DeserializeObject<RootObject> (input);
+				}
+
+				string[] retArray = retVal.Split('=');
+				if (info.Objects.Any(x => x.mac == retArray[0]))
+				{	
+					Object obj = info.Objects.First(x => x.mac == retArray[0]);
+					obj.ip = retArray[1];
+					obj.time = DateTime.Now.ToString ();
+				}
+				else  
+				{
+					info.Objects.Add(new Object(retArray[0], retArray[1].Replace("\n", ""), DateTime.Now.ToString()));
+				}
 				string output = JsonConvert.SerializeObject(info, Formatting.Indented);
 				File.WriteAllText("data.txt", output);
 
@@ -73,7 +79,11 @@ namespace GetIPServer
 				if (info.Objects != null) {
 					foreach (Object o in info.Objects) 
 					{
-						response += "<tr><td>" + o.mac + "</td><td>" + o.ip + "</td><td>" + o.name + "</td><td>" + o.time + "</td></tr>";
+						DateTime SavedTime = DateTime.Parse(o.time);
+						TimeSpan Difference = DateTime.Now.Subtract(SavedTime);
+						if (Difference.Minutes < 10) {
+						response += "<tr><td>" + o.mac + "</td><td>" + o.ip + "</td><td>" + o.name + "</td><td>" + Difference.Minutes  + "  mins" + "</td></tr>";
+						}
 					}
 				}
 				else {

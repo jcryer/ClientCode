@@ -2,8 +2,15 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="ServerCode/Program.cs">
     <Files>
-      <File FileName="ServerCode/Program.cs" Line="26" Column="21" />
+      <File FileName="ServerCode/Program.cs" Line="83" Column="62" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="ServerCode" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
